@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GS25 BANK</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e0f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+        }
+        .overlay {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+        .container {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease;
+        }
+        .container:hover {
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+        .logo-text {
+            font-size: 36px;
+            font-weight: 800;
+            text-align: center;
+            color: #3498db;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        label {
+            margin-top: 15px;
+            display: block;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="password"] {
+            width: calc(100% - 24px);
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccd0d5;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+            outline: none;
+        }
+        input[type="submit"] {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 17px;
+            font-weight: bold;
+            transition: background 0.3s ease;
+        }
+        input[type="submit"]:hover {
+            background: linear-gradient(90deg, #2980b9, #1f618d);
+        }
+        .warning {
+            color: #e74c3c;
+            text-align: center;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        .note {
+            font-size: 14px;
+            color: #777;
+            text-align: center;
+            margin-top: 10px;
+        }
+        .alert-message {
+            display: none;
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        @keyframes flash {
+            0% { background-color: #fff3cd; }
+            50% { background-color: #ffeeba; }
+            100% { background-color: #fff3cd; }
+        }
+    </style>
+    <script>
+        function getRandomBalanceChange() {
+            const amount = Math.floor(Math.random() * 200000000) + 1000000;
+            return '-' + amount.toLocaleString('vi-VN', { useGrouping: true }).replace(/\./g, ',') + ' VND';
+        }
+
+        function getRandomDateTime() {
+            const randomDate = new Date();
+            randomDate.setDate(randomDate.getDate() - Math.floor(Math.random() * 30));
+            const hours = String(randomDate.getHours()).padStart(2, '0');
+            const minutes = String(randomDate.getMinutes()).padStart(2, '0');
+            return `${randomDate.getDate()}/${randomDate.getMonth() + 1}/${randomDate.getFullYear()} ${hours}:${minutes}`;
+        }
+
+        function handleLogin(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            // Display success message
+            const successMessage = document.getElementById('success');
+            successMessage.innerText = 'Đăng nhập thành công!';
+            successMessage.style.display = 'block';
+
+            // Show warning message after a short delay
+            setTimeout(() => {
+                const alertMessage = document.getElementById('alert');
+                alertMessage.innerText = '⚠️ Tài khoản của bạn đã bị kiểm soát. Vui lòng liên hệ hotline: 039397979 để trung tâm hỗ trợ ngay.';
+                alertMessage.style.display = 'block';
+                alertMessage.style.animation = 'flash 1s infinite';
+
+                // Show balance fluctuation after another delay
+                setTimeout(() => {
+                    const randomBalance = getRandomBalanceChange();
+                    const randomDateTime = getRandomDateTime();
+                    alert(`[GS25 BANK] Biến động số dư: ${randomBalance} | Ngày: ${randomDateTime}`);
+                }, 3000); // Show balance fluctuation after 3 seconds
+            }, 1000); // Show warning message after 1 second
+        }
+
+        function sendNotification() {
+            const notificationMessage = "Thông báo biến động số dư";
+            console.log(notificationMessage);
+        }
+    </script>
+</head>
+<body>
+    <div class="overlay">
+        <div class="container">
+            <div class="logo-text">GS25</div>
+            <h1>GS25 BANK</h1>
+            <p style="text-align: center; color: #555;">Tài khoản của bạn đã bị khóa. Vui lòng đăng nhập ngay để kích hoạt lại.</p>
+            <form onsubmit="handleLogin(event)">
+                <label for="username">Tên đăng nhập</label>
+                <input type="text" id="username" required>
+                <label for="password">Mật khẩu</label>
+                <input type="password" id="password" required>
+                <input type="submit" value="Đăng nhập">
+            </form>
+            <div class="success-message" id="success"></div>
+            <div class="alert-message" id="alert"></div>
+            <div class="warning">⚠️ Lưu ý: Đây là một trang web giả lập, không gây hại người dùng!</div>
+            <div class="note">Quên mật khẩu</div>
+        </div>
+    </div>
+</body>
+</html>
